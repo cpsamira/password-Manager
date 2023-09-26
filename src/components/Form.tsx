@@ -21,6 +21,16 @@ function Form({ handleCancelForm }: FormProp) {
     ));
   }
 
+  // Ajudinha do google nessa parte do código
+
+  function passwordConditions(condition: string, validate: boolean) {
+    return (
+      <p className={ validate ? 'valid-password-check' : 'invalid-password-check' }>
+        {condition}
+      </p>
+    );
+  }
+
   const formIsValid = (formData.login.length > 0)
     && (formData.serviceName.length > 0)
     && (formData.password.length >= 8)
@@ -67,6 +77,23 @@ function Form({ handleCancelForm }: FormProp) {
 
       <button disabled={ !formIsValid }>Cadastrar</button>
       <button onClick={ () => handleCancelForm() }>Cancelar</button>
+
+      { passwordConditions(
+        'Possuir 8 ou mais caracteres',
+        formData.password.length >= 8,
+      )}
+      { passwordConditions(
+        'Possuir até 16 caracteres',
+        formData.password.length <= 16,
+      )}
+      { passwordConditions(
+        'Possuir letras e números',
+        /[a-zA-Z-]/.test(formData.password) && /\d/.test(formData.password),
+      )}
+      { passwordConditions(
+        'Possuir algum caractere especial',
+        /\W/.test(formData.password),
+      )}
     </form>
   );
 }
