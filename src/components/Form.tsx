@@ -1,81 +1,24 @@
-import { useState } from 'react';
-
-type FormProps = {
-  handleRenderForm: () => void,
+type FormProp = {
+  handleCancelForm: () => void
 };
 
-function Form({ handleRenderForm }: FormProps) {
-  const [formData, setFormData] = useState({
-    serviceName: '',
-    login: '',
-    password: '',
-  });
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormData((formState) => (
-      {
-        ...formState,
-        [event.target.name]: event.target.value,
-      }
-    ));
-  }
-
-  const formIsValid = (formData.login.length > 0)
-    && (formData.serviceName.length > 0)
-    && (formData.password.length >= 8)
-    && (formData.password.length <= 16)
-    && (formData.password.length <= 16)
-    && (formData.password.match(/[^a-zA-Z 0-9]+/g))
-    && (formData.password.match(/[0-9]+/g))
-    && (formData.password.match(/[a-z]+/g));
-
+function Form({ handleCancelForm }: FormProp) {
   return (
     <form>
-      <label>
-        Nome do serviço
-        <input
-          type="text"
-          value={ formData.serviceName }
-          name="serviceName"
-          onChange={ handleChange }
-        />
-      </label>
+      <label htmlFor="nameService">Nome do serviço</label>
+      <input type="text" id="nameService" />
 
-      <label>
-        Login
-        <input
-          type="text"
-          value={ formData.login }
-          name="login"
-          onChange={ handleChange }
-        />
-      </label>
+      <label htmlFor="login">login</label>
+      <input type="text" id="login" />
 
-      <label>
-        Senha
-        <input
-          type="password"
-          name="password"
-          value={ formData.password }
-          onChange={ handleChange }
-        />
-      </label>
+      <label htmlFor="password">Senha</label>
+      <input type="password" id="password" />
 
-      <label>
-        URL
-        <input type="text" />
-      </label>
+      <label htmlFor="url">URL</label>
+      <input type="text" id="url" />
 
-      <button
-        disabled={ !formIsValid }
-      >
-        Cadastrar
-      </button>
-      <button
-        onClick={ handleRenderForm }
-      >
-        Cancelar
-      </button>
+      <button>Cadastrar</button>
+      <button onClick={ () => handleCancelForm() }>Cancelar</button>
     </form>
   );
 }
